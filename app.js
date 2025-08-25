@@ -649,8 +649,7 @@
             ];
             const total = found.length;
             const mapStr = numbers.join('，');
-            const foundStr = total > 0 ? `：${found.join(' - ')}` : '';
-            return `<div class="row"><div class="map">${wuxing}：${mapStr}</div><div class="stats">出现<span class="count">${total}</span>次${foundStr}</div></div>`;
+            return `<div class="row"><div class="map">${wuxing}：${mapStr}</div><div class="stats">出现<span class="count">${total}</span>次</div></div>`;
           }).join('');
 
           analysisContent.innerHTML = `<div class="wuxing-combined">${rows}</div>`;
