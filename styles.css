@@ -40,6 +40,39 @@ html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-
 .page.active { display: block; }
 .hidden { display:none; }
 
+/* 结果页面背景 */
+#resultPage {
+  background-image: linear-gradient(var(--bg-tint), var(--bg-tint)), url('images/bazi-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: scroll;
+  background-color: #f7f7f9;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  position: relative;
+  margin: 0;
+  padding: 20px;
+  max-width: none;
+}
+
+#resultPage::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(var(--bg-tint), var(--bg-tint)), url('images/bazi-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: scroll;
+  background-color: #f7f7f9;
+  z-index: -1;
+}
+
 /* 首页输入区域 */
 .main-title { font-size: clamp(22px, 3.2vw, 36px); text-align: center; margin: 48px 0 16px; color: var(--text); }
 .input-label { display:block; text-align:center; font-size: 20px; font-weight: 600; margin: 24px 0 12px; } /* 大字提示标签 */
@@ -313,6 +346,12 @@ body {
 }
 
 .gua-display {
+  padding: 12px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  line-height: 1.8;
+  color: var(--text);
+  background: #fafafa;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -322,17 +361,24 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 4px;
+}
+
+.gua-row:last-child {
+  margin-bottom: 0;
 }
 
 .gua-label {
   font-weight: 600;
   min-width: 50px;
+  color: var(--text);
 }
 
 .gua-numbers {
   font-family: 'Courier New', monospace;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
+  color: var(--text);
 }
 
 .analysis-content {
@@ -348,7 +394,7 @@ body {
 
 .wuxing-combined .row { 
   display: grid; 
-  grid-template-columns: max-content 1fr; 
+  grid-template-columns: 140px 1fr; 
   gap: 16px; 
   align-items: baseline; 
   line-height: 1.8; 
