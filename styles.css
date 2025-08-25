@@ -1,0 +1,382 @@
+/* 全局基础样式，重置和主题变量 */
+:root {
+  /* 定义CSS变量，便于全局统一管理颜色和间距 */
+  --primary: #2d6cdf; /* 主色：蓝色，用于高亮选中状态和主按钮背景 */
+  --primary-contrast: #ffffff; /* 主色对比色：白色，用于主按钮文字 */
+  --text: #111827; /* 主要文字颜色：近黑 */
+  --subtext: #6b7280; /* 次要文字颜色：灰色 */
+  --border: #e5e7eb; /* 边框颜色：浅灰 */
+  --bg: #ffffff; /* 页面背景：白色 */
+  --mask: rgba(17, 24, 39, 0.5); /* 蒙版颜色：半透明黑 */
+  --wheel-item-height: 40px; /* 滚轮每一项的高度，用于滚动定位计算 */
+  --radius: 12px; /* 统一圆角 */
+  --shadow: 0 8px 24px rgba(0,0,0,0.12); /* 统一阴影 */
+
+  /* 兼容旧选择器的变量映射（现有HTML不变即可生效） */
+  --color-primary: var(--primary);
+  --color-text: var(--text);
+  --color-subtext: var(--subtext);
+  --color-border: var(--border);
+  --color-bg: var(--bg);
+  --color-white: #ffffff;
+  --color-overlay: var(--mask);
+  
+  /* 全局背景蒙版（用于降低色彩饱和度/对比度），数值越大越“灰/淡” */
+  --bg-tint: rgba(255, 255, 255, 0.40);
+}
+
+* { box-sizing: border-box; } /* 统一盒模型，padding/border不影响布局计算 */
+html, body { height:100%; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; } /* 设置全局字体族，保证中英文显示效果 */
+
+/* 容器与排版 */
+.container { width: min(960px, 92vw); margin: 0 auto; padding: 24px 16px 80px; } /* 页面宽度上限，居中显示，内边距适配PC和H5 */
+.site-header { text-align: center; margin-bottom: 24px; } /* 顶部标题居中，下方留白 */
+.title { font-size: clamp(22px, 3.2vw, 28px); font-weight: 700; margin: 0 0 8px; } /* 主标题：加粗放大 */
+.subtitle { font-size: 14px; color: var(--subtext); margin:0; } /* 副标题：灰色说明 */
+
+/* 页面切换 */
+.page { display: none; max-width: 720px; margin: 0 auto; }
+.page.active { display: block; }
+.hidden { display:none; }
+
+/* 首页输入区域 */
+.main-title { font-size: clamp(22px, 3.2vw, 36px); text-align: center; margin: 48px 0 16px; color: var(--text); }
+.input-label { display:block; text-align:center; font-size: 20px; font-weight: 600; margin: 24px 0 12px; } /* 大字提示标签 */
+.input-wrapper { position: relative; max-width: 520px; margin: 0 auto; }
+.date-input { display:block; width:100%; height:56px; padding: 0 44px 0 16px; font-size: 18px; color: var(--text); background:#fff; border:1px solid var(--border); border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); cursor:pointer; outline:none; transition: box-shadow .2s ease, border-color .2s ease; }
+.date-input:hover { border-color:#cbd5e1; }
+.date-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(45,108,223,0.15); }
+.input-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width:22px; height:22px; color: var(--subtext); pointer-events: none; }
+.help-text { text-align:center; color: var(--subtext); margin-top: 8px; }
+
+/* 蒙版与弹窗（现有结构：.modal, .modal-overlay, .modal-content） */
+.modal { display: none; }
+.modal.show { display: block; }
+.modal-overlay { position: fixed; inset: 0; background: var(--mask); z-index: 10; } /* 全屏灰色蒙版 */
+.modal-content { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(680px, 94vw); background:#fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 20; padding-bottom: 12px; overflow: hidden; }
+.modal-header { display:flex; align-items:center; justify-content: space-between; padding: 12px; border-bottom:1px solid var(--border); }
+
+/* 通用按钮样式（兼容现有.btn-cancel/.btn-confirm） */
+.btn { height:36px; padding:0 14px; border-radius:8px; border:1px solid transparent; font-size:14px; cursor:pointer; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--primary); color: var(--primary-contrast); }
+.btn-ghost { background:#fff; color:#000; border-color: var(--border); }
+.btn-secondary { background:#f3f4f6; color:#111827; border-color:#e5e7eb; }
+.btn-cancel { background:#fff; color:#000; border-color: var(--border); border:1px solid var(--border); }
+.btn-confirm { background: var(--primary); color: var(--primary-contrast); }
+
+/* 公历/农历分段控制器（适配现有.switch-container/.switch-btn） */
+.calendar-switch { display:flex; justify-content:center; }
+.switch-container { display:flex; gap:4px; background:#f3f4f6; padding:4px; border-radius:999px; border:1px solid var(--border); }
+.switch-btn { border:none; background:transparent; padding:6px 14px; border-radius:999px; color:#6b7280; cursor:pointer; }
+.switch-btn.active { background: var(--primary); color: #fff; }
+
+/* 提示信息（! 出生时间不详） */
+.modal-tip, .notice { padding: 8px 12px; font-size: 12px; color:#ef4444; background:#fff; }
+
+/* 圆形滚轮选择器布局 */
+.picker-container { display:grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 8px 12px 16px; height: 280px; position: relative; }
+.picker-column { min-width: 0; }
+/* 隐藏列标题（年月日时分） */
+.picker-label { display: none; }
+.picker-wrapper { 
+  height: 240px;  /* 增加高度，因为不需要给标题留空间 */
+  overflow: hidden; 
+  position: relative;
+  perspective: 1000px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.9) 100%);
+  touch-action: pan-y; /* 允许垂直滑动，禁用水平滑动 */
+  user-select: none; /* 禁用文本选择，改善触摸体验 */
+}
+.picker-list { 
+  list-style:none; 
+  padding: 100px 0; /* 增加上下内边距，配合高度调整 */
+  margin:0;
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.picker-item { 
+  height: var(--wheel-item-height); 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  font-variant-numeric: tabular-nums; 
+  color: #666; /* 改为更深的灰色，提高可见度 */
+  transition: all 0.3s ease;
+  transform-origin: center;
+  cursor: pointer;
+  font-size: 16px; /* 增加基础字体大小 */
+  font-weight: 500; /* 增加字体粗细 */
+}
+.picker-item.active { 
+  color: var(--primary); 
+  font-weight: 700;
+  font-size: 18px;
+  transform: scale(1.1);
+}
+/* 圆形滚轮的3D效果 */
+.picker-item:nth-child(n+4):nth-child(-n+6) { /* 中心附近的项 */
+  opacity: 1;
+  transform: rotateX(0deg) translateZ(0px);
+}
+.picker-item:nth-child(3), .picker-item:nth-child(7) {
+  opacity: 0.8; /* 提高透明度，增加可见度 */
+  transform: rotateX(15deg) translateZ(-20px);
+}
+.picker-item:nth-child(2), .picker-item:nth-child(8) {
+  opacity: 0.6; /* 提高透明度，增加可见度 */
+  transform: rotateX(30deg) translateZ(-40px);
+}
+.picker-item:nth-child(1), .picker-item:nth-child(9) {
+  opacity: 0.4; /* 提高透明度，增加可见度 */
+  transform: rotateX(45deg) translateZ(-60px);
+}
+/* 居中高亮区域线条 */
+.picker-wrapper::before { 
+  content:""; 
+  position: absolute; 
+  left: 8px; 
+  right: 8px; 
+  height: 1px; 
+  background: var(--primary); 
+  opacity: 0.3; 
+  z-index: 1; 
+  pointer-events: none; 
+  top: calc(50% - var(--wheel-item-height)/2);
+}
+/* 中心高亮背景 */
+.picker-wrapper::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: calc(50% - var(--wheel-item-height)/2);
+  height: var(--wheel-item-height);
+  background: rgba(45, 108, 223, 0.08);
+  border-radius: 8px;
+  z-index: 0;
+  border: 1px solid rgba(45, 108, 223, 0.15);
+}
+
+/* 结果页样式（对齐参考规范） */
+.result-header { display:flex; align-items:center; justify-content:center; gap:12px; margin: 8px 0 16px; }
+.result-header .result-title { margin:0; font-size: clamp(22px, 3.4vw, 34px); }
+.result-header .back-btn { font-size: clamp(16px, 2.8vw, 20px); padding:10px 14px; }
+.result-header .back-btn svg { width:20px; height:20px; }
+.section-title { font-size:18px; font-weight:700; margin:24px 0 12px; }
+.info-display { padding:12px; border:1px dashed var(--border); border-radius: 8px; line-height:1.8; color:var(--text); background:#fafafa; }
+.gua-display { padding:12px; border:1px solid var(--border); border-radius:8px; background:#fff; }
+.gua-row { display:flex; align-items:center; margin:8px 0; }
+.gua-label { width: 56px; color:var(--subtext); }
+.gua-numbers { font-weight:700; color: var(--text); }
+.analysis-display { color:var(--text); line-height:1.8; }
+.wuxing-mapping { padding:12px; border:1px dashed var(--border); border-radius:8px; background:#fafafa; margin-bottom:10px; }
+.wuxing-mapping > div { font-size:16px; line-height:1.8; color: var(--text); }
+.wuxing-mapping > div:first-child { font-weight:700; margin-bottom:6px; }
+.wuxing-stats { background:#fafafa; border:1px dashed var(--border); border-radius:8px; padding:12px; white-space:pre-wrap; font-family: inherit; font-size:16px; line-height:1.8; color: var(--text); }
+.placeholder-text { color: var(--subtext); }
+.back-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 12px; background:#fff; border:1px solid var(--border); border-radius:8px; color:var(--text); cursor:pointer; }
+.back-btn svg { width: 18px; height: 18px; }
+.wuxing-stats .occurrence { letter-spacing: 0.5ch; }
+.wuxing-stats .occurrence .count { font-weight: 700; }
+
+/* 响应式：在较小屏幕上调整排版 */
+@media (max-width: 600px) { /* 针对H5手机屏幕 */
+  :root { --wheel-item-height: 32px; } /* 小屏幕下调整滚轮项高度 */
+  .title { font-size: 22px; }
+  .date-input { height: 52px; font-size:16px; }
+  .modal-content { width: 96vw; max-height: 90vh; overflow-y: auto; }
+  .picker-container { grid-template-columns: repeat(5, 1fr); height: 260px; gap: 4px; padding: 8px 8px 12px; }
+  .picker-wrapper { height: 200px; }
+  .picker-list { padding: 80px 0; }
+  .picker-item { font-size: 14px; }
+}
+
+/* Global background image for the app */
+html {
+  /* 确保html元素也有背景，避免留白 */
+  background-image: linear-gradient(var(--bg-tint), var(--bg-tint)), url('images/bazi-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: scroll;
+  background-color: #f7f7f9;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+body {
+  /* 使用多重背景：先绘制半透明白色蒙版，再绘制真实背景图，实现"去饱和/降色彩"效果 */
+  background-image: linear-gradient(var(--bg-tint), var(--bg-tint)), url('images/bazi-bg.jpg'); /* 将图片放到 images/ 目录 */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: scroll; /* 改为scroll避免fixed导致的显示问题 */
+  background-color: #f7f7f9; /* 背景图未就绪时的优雅降级颜色 */
+  min-height: 100vh; /* 确保body至少占满整个视口高度 */
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+/* 首页英雄区：父容器负责整页居中，更稳妥适配移动端视口 */
+#homePage {
+  /* 兼容不同浏览器的视口单位，优先使用更准确的 dvh/svh */
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  /* 注意：不要在这里设置 display，以免覆盖 .page/.active 的切换 */
+  padding: 0 16px; /* 两侧留白，顶部不再额外加间距，保证几何中心 */
+}
+/* 仅在首页为激活态时启用网格居中，这样切换页面时首页会被隐藏 */
+#homePage.active {
+  display: grid;
+  place-items: center; /* 水平+垂直居中 */
+}
+/* 重置首页内 .container，避免其再撑满全高 */
+#homePage .container {
+  display: block;       /* 取消 flex，让父级 grid 负责居中 */
+  min-height: auto;     /* 覆盖之前的 100vh */
+  padding: 0;           /* 去除上下额外内边距，保证正中 */
+  width: min(960px, 92vw); /* 保持原有宽度约束 */
+}
+#homePage .main-title {
+  margin: 0 0 16px;     /* 标题与输入框的间距 */
+  text-align: center;
+}
+#homePage .input-wrapper {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+/* 结果页面样式 */
+.result-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #f3f4f6;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.back-btn:hover {
+  background: #e5e7eb;
+}
+
+.back-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.result-title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.result-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.section-title {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.info-display {
+  line-height: 1.6;
+}
+
+.info-display div {
+  margin-bottom: 4px;
+}
+
+.gua-display {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gua-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gua-label {
+  font-weight: 600;
+  min-width: 50px;
+}
+
+.gua-numbers {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.analysis-content {
+  margin-top: 8px;
+}
+
+.wuxing-combined { 
+  background: #fafafa; 
+  border: 1px dashed var(--border); 
+  border-radius: 8px; 
+  padding: 12px; 
+}
+
+.wuxing-combined .row { 
+  display: grid; 
+  grid-template-columns: max-content 1fr; 
+  gap: 16px; 
+  align-items: baseline; 
+  line-height: 1.8; 
+  margin-bottom: 8px;
+}
+
+.wuxing-combined .row:last-child {
+  margin-bottom: 0;
+}
+
+.wuxing-combined .map { 
+  color: var(--text); 
+  font-weight: 500;
+}
+
+.wuxing-combined .stats { 
+  color: var(--text); 
+}
+
+.wuxing-combined .stats .count { 
+  font-weight: 700; 
+  color: var(--primary);
+}
+
+.wuxing-stats .occurrence { 
+  letter-spacing: 0.5ch; 
+}
+
+.wuxing-stats .occurrence .count { 
+  font-weight: 700; 
+}
